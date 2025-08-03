@@ -1,3 +1,4 @@
+var _a;
 console.log("hello");
 function add(n1, n2, isShow, resText) {
     let n = n1 + n2;
@@ -289,12 +290,12 @@ const e2 = {
 //typegaurd in class
 class Car {
     drive() {
-        console.log('car driving');
+        console.log("car driving");
     }
 }
 class Truck {
     drive() {
-        console.log('Truck driving');
+        console.log("Truck driving");
     }
     loadSpeed(num) {
         console.log(`Speed is ${num}`);
@@ -326,17 +327,122 @@ function SpeedAnimal(anim) {
     }
     return speed;
 }
-console.log(SpeedAnimal({ type: 'horse', speedHorse: 5000 }));
+console.log(SpeedAnimal({ type: "horse", speedHorse: 5000 }));
 //type casting
 //زمانی که میخواهیم به دام دسترسی داشته باشیم تایپ اسکریپت سخت گیریر میکند که ما نمیدونیم این المان هست یا نه
 //برای حل این مشکل به انتها   !   اضافه میکنیم
 //اگر به اینپوت اشاره کرده باشیم طبیعتا با value میخواهیم کار کنیم که اینجا هم سخت گیری میکند که من نمیدونم این نوع المان تو value میگیرد یا نه
-//برای حل این مشکل از 
+//برای حل این مشکل از
 //as ...
 //استفاده میکنیم
 //وقتی از as استفاده کنیم دیگر نیازی به علامت تعجب نیست
 // let inputUser = document.getElementById('txt')!
-let inputUser = document.getElementById('txt');
+let inputUser = document.getElementById("txt");
 inputUser.value = "yesss...";
+function sumFun(a, b) {
+    if (typeof a === "string" || typeof b === "string") {
+        return a.toString() + b.toString();
+    }
+    return a + b;
+}
+let exSum01 = sumFun("ali", "ahmadi");
+console.log(exSum01.split("a"));
+/********************************* */
+//optional chaining
+//زمانی که دیتا از سمت سرور بیاد ممکنه بعضی فیلد ها خالی بیاد یا خودش کلا خالی بیاد باید از باگ های پیش اومده رو کنترل کنیم
+//برای این کار از ؟ استفاده میکنیم که یعنی اگر بود حالا برو سراغ بعدی
+let fetchData = {
+    id: 1,
+    name: "ahmad",
+    job: {
+        role: "teacher",
+        post: "engineer",
+    },
+};
+console.log((_a = fetchData === null || fetchData === void 0 ? void 0 : fetchData.job) === null || _a === void 0 ? void 0 : _a.post);
+/**************************************** */
+//generic
+//ابزاری هستند که به ما این اجازه را میدهند داده هایمان را دقیقتر و مشخص تر تعریف کنیم اصطلاحا
+//type saftly
+//کد خودمون رو بالا تر ببریم و در واقع امنیت تایپ خودمون را بالاتر ببریم
+//دستمون برای دادن دیتا تایپ ها یاز تر است
+let arr = [];
+if (typeof arr[0] === "string") {
+    arr[0].split("0");
+}
+const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve("ok");
+    }, 2000);
+});
+//generics in function
+//زمانی که در تابع مثلا میخواهدی دو تا ابجکت را با هم ادغام کند چون ورودی ها ابجکت هستند و خروجی هم ابجکت هست وقتی بخواهیم به جزئیات دسترسی پیدا کنیم خطا میدهد و علت هم این هست که میدونه ابجکت هست ولی نمیدونه که نوعش چیه
+//برای حل این مشکل از generic استفاده میکنیم و داخل<> دو عبارت متفاوت با هر اسمی که خودت میدونی بنویس
+//حالا میفهمه که فرق دارند و دیگه جزئیات رو گیر نمیده
+// function merjObj (obj1:object,obj2:object){
+//   return Object.assign(obj1,obj2)
+// }
+// const exMerg01 = merjObj({name:'ali'},{age:25})
+// exMerg01.age  ERRRORRR
+function merjObj(obj1, obj2) {
+    return Object.assign({}, obj1, obj2);
+}
+const exMerg01 = merjObj({ name: "ali" }, { age: 25 });
+exMerg01.age;
+console.log(exMerg01);
+//ما میتوانیم موقعی که تابع بالا را صدا میزنیم نوع را دقیقتر مشخص کنیم
+const exMerg02 = merjObj("ali", 25);
+//ما میتوانیم این محدودیت را قرارر دهیم که کاربر یا برنامه نویس حتما به صورت ابجکت وارد نماید
+function merjObj0(obj1, obj2) {
+    return Object.assign({}, obj1, obj2);
+}
+// const exMerg03 = merjObj0({name:'ali'},21) ERROOOORRR
+const exMerg03 = merjObj0({ name: "ali" }, { age: 25 });
+function CountAndDescribe(inp) {
+    let res = "Got no value";
+    if (inp.length === 1) {
+        res = "1 value";
+    }
+    else if (inp.length > 1) {
+        res = `${inp.length} value`;
+    }
+    return [inp, res];
+}
+console.log(CountAndDescribe([1, 2, 3]));
+/************************************** */
+//key of operator
+//زمانی که میخواهیم کلید و ابجکت را بخواهیم به هم مربوط کنیم از تکنیک استفاده میکنیم کهخ میگوییم ملید مربوط به کدام ابجکت هست
+function FindObjectWithKey(obj, key) {
+    return obj[key];
+}
+console.log(FindObjectWithKey({ name: "ali", age: 21 }, "name"));
+//generic in class
+//خاصیت مهم این جنریک ها این هست که اتعطاف پذیر هستند و شما میتوانید یکبار رشته و بار دیگر عدد به آن بدهید
+class dataStorage {
+    constructor() {
+        this.data = [];
+    }
+    addItems(item) {
+        this.data.push(item);
+    }
+    removeItem(item) {
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    getItem() {
+        return [...this.data];
+    }
+}
+const data01 = new dataStorage();
+data01.addItems("first");
+data01.addItems("second");
+data01.addItems("third");
+data01.removeItem("second");
+console.log(data01.getItem());
+const data02 = new dataStorage();
+data02.addItems(1);
+data02.addItems(2);
+data02.addItems(3);
+data02.removeItem(1);
+console.log(data02.getItem());
 export {};
 //# sourceMappingURL=typeScript.js.map

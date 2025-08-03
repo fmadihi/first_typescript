@@ -479,71 +479,260 @@ const e2: empAdmin01 = {
 //typegaurd in class
 
 class Car {
-  drive(){
-    console.log('car driving');
+  drive() {
+    console.log("car driving");
   }
 }
 class Truck {
-  drive(){
-    console.log('Truck driving');
+  drive() {
+    console.log("Truck driving");
   }
-  loadSpeed(num:number){
-console.log(`Speed is ${num}`);
+  loadSpeed(num: number) {
+    console.log(`Speed is ${num}`);
   }
 }
- type vehicle = Car | Truck
- function useVehicle (vehicle:vehicle){
-  vehicle.drive()
+type vehicle = Car | Truck;
+function useVehicle(vehicle: vehicle) {
+  vehicle.drive();
   //both below are correct
-  if(vehicle instanceof Truck){
-    vehicle.loadSpeed(3000)
+  if (vehicle instanceof Truck) {
+    vehicle.loadSpeed(3000);
   }
-  if("loadSpeed" in vehicle){
-    vehicle.loadSpeed(5000)
+  if ("loadSpeed" in vehicle) {
+    vehicle.loadSpeed(5000);
   }
- }
+}
 
- //typegaurd in interface
- //در اینجا کافیست که از if که درون "" قرار میدهیم استفاده کنیم یا از switchcase
- //فقط باید یک تایپ را درون آن مشخص کنیم و آن را با switch-case میسنجیمچ
- interface Bird{
-  type : "bird";
-  speedBird : number;
- }
-  interface Horse{
-  type : "horse";
-  speedHorse : number;
- }
+//typegaurd in interface
+//در اینجا کافیست که از if که درون "" قرار میدهیم استفاده کنیم یا از switchcase
+//فقط باید یک تایپ را درون آن مشخص کنیم و آن را با switch-case میسنجیمچ
+interface Bird {
+  type: "bird";
+  speedBird: number;
+}
+interface Horse {
+  type: "horse";
+  speedHorse: number;
+}
 
- type Animal = Bird | Horse
- function SpeedAnimal (anim:Animal){
-
-  if("speedBird" in anim){
-    console.log(anim.speedBird)
+type Animal = Bird | Horse;
+function SpeedAnimal(anim: Animal) {
+  if ("speedBird" in anim) {
+    console.log(anim.speedBird);
   }
   //or with switch-case
-  let speed
-  switch (anim.type){
+  let speed;
+  switch (anim.type) {
     case "bird":
-      speed = anim.speedBird
-      break
-      case "horse":
-        speed= anim.speedHorse
-        break
+      speed = anim.speedBird;
+      break;
+    case "horse":
+      speed = anim.speedHorse;
+      break;
   }
-  return speed
- }
-console.log( SpeedAnimal({type:'horse',speedHorse:5000}));
+  return speed;
+}
+console.log(SpeedAnimal({ type: "horse", speedHorse: 5000 }));
 
 //type casting
 //زمانی که میخواهیم به دام دسترسی داشته باشیم تایپ اسکریپت سخت گیریر میکند که ما نمیدونیم این المان هست یا نه
 //برای حل این مشکل به انتها   !   اضافه میکنیم
 //اگر به اینپوت اشاره کرده باشیم طبیعتا با value میخواهیم کار کنیم که اینجا هم سخت گیری میکند که من نمیدونم این نوع المان تو value میگیرد یا نه
-//برای حل این مشکل از 
+//برای حل این مشکل از
 //as ...
 //استفاده میکنیم
 //وقتی از as استفاده کنیم دیگر نیازی به علامت تعجب نیست
 
 // let inputUser = document.getElementById('txt')!
-let inputUser = document.getElementById('txt') as HTMLInputElement
-inputUser.value = "yesss..."
+let inputUser = document.getElementById("txt") as HTMLInputElement;
+inputUser.value = "yesss...";
+
+/********************************************* */
+//function over loading
+//تعریف صورت های مختلف تابع با بدنه یکسان
+//وقتی شما یک تابع را تعریف کنید که میتواند دیتاتایپ های مختلف بگیرد مقلا رشته یا عدد
+//اینحا تایپ اسکریپت گیج میشه که کدام نوع هست.
+//برای همینت از این تکنیک استفاده میکنیم که صورت های مختلف تابع با تایپ هامختلف ورودی تعریف میکینم ولی فقط یک بدنه دارد
+
+type Combine = string | number;
+
+function sumFun(a: number, b: number): number;
+function sumFun(a: string, b: string): string;
+function sumFun(a: number, b: number): string;
+
+function sumFun(a: Combine, b: Combine) {
+  if (typeof a === "string" || typeof b === "string") {
+    return a.toString() + b.toString();
+  }
+  return a + b;
+}
+
+let exSum01 = sumFun("ali", "ahmadi");
+console.log(exSum01.split("a"));
+
+/********************************* */
+//optional chaining
+//زمانی که دیتا از سمت سرور بیاد ممکنه بعضی فیلد ها خالی بیاد یا خودش کلا خالی بیاد باید از باگ های پیش اومده رو کنترل کنیم
+//برای این کار از ؟ استفاده میکنیم که یعنی اگر بود حالا برو سراغ بعدی
+let fetchData = {
+  id: 1,
+  name: "ahmad",
+  job: {
+    role: "teacher",
+    post: "engineer",
+  },
+};
+console.log(fetchData?.job?.post);
+
+/**************************************** */
+//generic
+//ابزاری هستند که به ما این اجازه را میدهند داده هایمان را دقیقتر و مشخص تر تعریف کنیم اصطلاحا
+//type saftly
+//کد خودمون رو بالا تر ببریم و در واقع امنیت تایپ خودمون را بالاتر ببریم
+//دستمون برای دادن دیتا تایپ ها یاز تر است
+let arr: Array<string | number> = [];
+if (typeof arr[0] === "string") {
+  arr[0].split("0");
+}
+
+const promise: Promise<string> = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("ok");
+  }, 2000);
+});
+
+//generics in function
+//زمانی که در تابع مثلا میخواهدی دو تا ابجکت را با هم ادغام کند چون ورودی ها ابجکت هستند و خروجی هم ابجکت هست وقتی بخواهیم به جزئیات دسترسی پیدا کنیم خطا میدهد و علت هم این هست که میدونه ابجکت هست ولی نمیدونه که نوعش چیه
+//برای حل این مشکل از generic استفاده میکنیم و داخل<> دو عبارت متفاوت با هر اسمی که خودت میدونی بنویس
+//حالا میفهمه که فرق دارند و دیگه جزئیات رو گیر نمیده
+
+// function merjObj (obj1:object,obj2:object){
+//   return Object.assign(obj1,obj2)
+// }
+// const exMerg01 = merjObj({name:'ali'},{age:25})
+// exMerg01.age  ERRRORRR
+
+function merjObj<U, T>(obj1: U, obj2: T) {
+  return Object.assign({}, obj1, obj2);
+}
+const exMerg01 = merjObj({ name: "ali" }, { age: 25 });
+exMerg01.age;
+console.log(exMerg01);
+
+//ما میتوانیم موقعی که تابع بالا را صدا میزنیم نوع را دقیقتر مشخص کنیم
+const exMerg02 = merjObj<string, number>("ali", 25);
+//ما میتوانیم این محدودیت را قرارر دهیم که کاربر یا برنامه نویس حتما به صورت ابجکت وارد نماید
+function merjObj0<U extends object, T extends object>(obj1: U, obj2: T) {
+  return Object.assign({}, obj1, obj2);
+}
+// const exMerg03 = merjObj0({name:'ali'},21) ERROOOORRR
+const exMerg03 = merjObj0({ name: "ali" }, { age: 25 });
+
+//example for generics
+interface lengthy {
+  length: number;
+}
+function CountAndDescribe<T extends lengthy>(inp: T) {
+  let res = "Got no value";
+  if (inp.length === 1) {
+    res = "1 value";
+  } else if (inp.length > 1) {
+    res = `${inp.length} value`;
+  }
+  return [inp, res];
+}
+
+console.log(CountAndDescribe([1, 2, 3]));
+
+/************************************** */
+//key of operator
+//زمانی که میخواهیم کلید و ابجکت را بخواهیم به هم مربوط کنیم از تکنیک استفاده میکنیم کهخ میگوییم ملید مربوط به کدام ابجکت هست
+function FindObjectWithKey<U extends object, T extends keyof U>(
+  obj: U,
+  key: T
+) {
+  return obj[key];
+}
+console.log(FindObjectWithKey({ name: "ali", age: 21 }, "name"));
+
+//generic in class
+//خاصیت مهم این جنریک ها این هست که اتعطاف پذیر هستند و شما میتوانید یکبار رشته و بار دیگر عدد به آن بدهید
+class dataStorage<T> {
+  private data: T[] = [];
+
+  addItems(item: T) {
+    this.data.push(item);
+  }
+  removeItem(item: T) {
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+  getItem() {
+    return [...this.data];
+  }
+}
+
+const data01 = new dataStorage<string>()
+data01.addItems("first")
+data01.addItems("second")
+data01.addItems("third")
+data01.removeItem("second")
+console.log(data01.getItem())
+
+const data02 = new dataStorage<number>()
+data02.addItems(1)
+data02.addItems(2)
+data02.addItems(3)
+data02.removeItem(1)
+console.log(data02.getItem())
+
+//می توانید مشخص کنید که فقط چه تایپ هایی را بگیرد
+class dataStorage01<T extends string | number> {
+  private data: T[] = [];
+
+  addItems(item: T) {
+    this.data.push(item);
+  }
+  removeItem(item: T) {
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+  getItem() {
+    return [...this.data];
+  }
+}
+
+/********************************** ****************/
+//utility type 
+// میخواهیم مقادیر داخل تعریف شده داخل اینترفیس رو از حال اجباری خارج کنیم
+//Partial
+//یا ? قبل از  : استفاده کنیم
+interface mode01 {
+  name:string
+  age:number
+}
+const exMode01 : Partial<mode01> = {
+
+}
+
+interface mode02 {
+  name?:string
+  age?:number
+}
+const exMode02 : mode02 = {
+
+}
+
+//اگر هم بخواهیم اجباری کنیم از 
+//required
+const exMode03 : Required<mode02> = {
+name:"a",
+age:2
+}
+
+//قابلیت readonly کردن در اینترفیس
+interface mode03 {
+  name:string
+}
+const exMode04 : Readonly<mode03> = {
+name:"hello"
+}
+// exMode04.name="hi"  ERRRRooorRR
