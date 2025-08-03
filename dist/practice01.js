@@ -49,6 +49,14 @@ class AccountindDepartment extends Department {
         this.reports = rep;
         this.lastReport = rep[0];
     }
+    //define instance just 1
+    static getInstance() {
+        if (AccountindDepartment.instance) {
+            return this.instance;
+        }
+        this.instance = new AccountindDepartment(3, '222TET', []);
+        return this.instance;
+    }
     addReport(x) {
         this.reports.push(x);
     }
@@ -62,17 +70,20 @@ class AccountindDepartment extends Department {
 //use static function & property
 const staticemployee01 = Department.createEmployee("ahmad");
 console.log('staticemployee01', staticemployee01, " ", Department.NowYear);
-const depart = new AccountindDepartment(1, "fanavari", ['report 000']);
-depart.addEmployee("ali");
-depart.addEmployee("reza");
-depart.showEmployee();
+// const depart = new AccountindDepartment(1, "fanavari",['report 000']);
+// depart.addEmployee("ali");
+// depart.addEmployee("reza");
+// depart.showEmployee();
 const ItDepar = new ItDepartment(1, "programmer", ["mammad"]);
 ItDepar.addEmployee("sima");
 console.log(ItDepar);
 //abstract
-depart.Describe();
+// depart.Describe()
 ItDepar.Describe();
-const accouVal = new AccountindDepartment(1, "tv", ['good']);
+// const accouVal = new AccountindDepartment(1, "tv", ['good']);
+const accouVal = AccountindDepartment.getInstance();
+const accouVal03 = AccountindDepartment.getInstance();
+console.log('00just 1 made', accouVal, accouVal03);
 accouVal.addEmployee("sara");
 console.log("accouVal", accouVal);
 //get

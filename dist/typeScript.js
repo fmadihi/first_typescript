@@ -153,7 +153,7 @@ const copyFirstUser = {
     email: "123@gmail.com",
     phoneNumber: 912542165,
     password: "123456",
-    print: firstUser.print
+    print: firstUser.print,
 };
 copyFirstUser.print();
 //در بالا چون مقدار undefiend میپگیریم باید متد print را براش this برابر با اسم کلاس مشخص کنیم
@@ -196,7 +196,7 @@ class UserShort {
         this.phoneNumber = phoneNumber;
         this.password = password;
         // this.email = e;
-        // this.phoneNumber = pn; 
+        // this.phoneNumber = pn;
         // this.password = pass;
     }
     print() {
@@ -222,12 +222,12 @@ const firstUser01 = new User01("f.f@gmail.com", 912542165, "123456");
 console.log("class firstUser01", firstUser01);
 //extend
 //ارث بری ها
-// ما میتوانیم از یک کلاس دیگر ارثبری کنیم . وقتی قرار است یک کلاس دیگر داشته باشیم که تمام مشخصات کلاس اول را داشته باشد  میتوانیم از قانون ارثبری استفاده کنیم. 
+// ما میتوانیم از یک کلاس دیگر ارثبری کنیم . وقتی قرار است یک کلاس دیگر داشته باشیم که تمام مشخصات کلاس اول را داشته باشد  میتوانیم از قانون ارثبری استفاده کنیم.
 // اگر در کلاس دوم از سازنده استفاده کنیم ارور خواهیم گرفت که مقادیر کلاس اول را چکاز میخواهی کنی و چطور میخواهی آن ها رو پر کنی
 //برای این کار از super استفاده میکنیم و داخل ان مقادیر کلاس اول را مینویسیم
 class AdminUser extends User {
     constructor(adminPer) {
-        super("h@gm.com", 1254, '54fd');
+        super("h@gm.com", 1254, "54fd");
         this.adminPermision = adminPer;
     }
     showAdmin() {
@@ -235,32 +235,108 @@ class AdminUser extends User {
     }
 }
 const adminuser = new AdminUser(true);
-console.log('adminuser', adminuser);
+console.log("adminuser", adminuser);
 adminuser.showAdmin();
+let employee;
+employee = {
+    name: "ali",
+    job: ["fanavar"],
+    greeting() { },
+};
+//در interface ها حتما باید تمام پراپرتی ها نوشته شود و اگر ننویسیم ارور میپیرم.
+//آیا کاربر برای این هست؟ خیر در کلاس ها خیلی از این مورد استفاده میکنیم
+//interface in classs
+//برای اینکه کلاس را از قوانین و قراداد های interface مجبور کنید که پیروی کند از impeliment استفاده میکنیم
+//نکته جالب این که میتوانید متغیر های اضافه تری که در interface نیست را در کلاس استفاده کنید فقط حتما باید آن هایی که در اینترفیس هست را حتما استفاده کنیدئ
+class EMP {
+    constructor(n, j, ag) {
+        (this.name = n), (this.job = j), (this.age = ag);
+    }
+    greeting(phrase) {
+        console.log(this.name + " " + phrase);
+    }
+}
+let newEMP = new EMP("Ahmad", ["teacher"], 20);
+newEMP.greeting("how are you ???");
+let add01;
+add01 = (n1, n2) => {
+    return n1 + n2;
+};
+let add02;
+add02 = (n1, n2) => {
+    return n1 + n2;
+};
+console.log(add01(5, 10), add02(100, 500));
+const e1 = {
+    name: "ali",
+    phoneNumber: 523,
+    startDate: new Date(),
+};
+console.log(e1);
+let xx = "hgd";
+console.log(xx);
+function printepm(empl) {
+    console.log(empl.name);
+    if ("startDate" in empl) {
+        console.log(empl.startDate);
+    }
+}
+const e2 = {
+    name: "ali",
+    phoneNumber: 523,
+    startDate: new Date(),
+};
+//typegaurd in class
+class Car {
+    drive() {
+        console.log('car driving');
+    }
+}
+class Truck {
+    drive() {
+        console.log('Truck driving');
+    }
+    loadSpeed(num) {
+        console.log(`Speed is ${num}`);
+    }
+}
+function useVehicle(vehicle) {
+    vehicle.drive();
+    //both below are correct
+    if (vehicle instanceof Truck) {
+        vehicle.loadSpeed(3000);
+    }
+    if ("loadSpeed" in vehicle) {
+        vehicle.loadSpeed(5000);
+    }
+}
+function SpeedAnimal(anim) {
+    if ("speedBird" in anim) {
+        console.log(anim.speedBird);
+    }
+    //or with switch-case
+    let speed;
+    switch (anim.type) {
+        case "bird":
+            speed = anim.speedBird;
+            break;
+        case "horse":
+            speed = anim.speedHorse;
+            break;
+    }
+    return speed;
+}
+console.log(SpeedAnimal({ type: 'horse', speedHorse: 5000 }));
+//type casting
+//زمانی که میخواهیم به دام دسترسی داشته باشیم تایپ اسکریپت سخت گیریر میکند که ما نمیدونیم این المان هست یا نه
+//برای حل این مشکل به انتها   !   اضافه میکنیم
+//اگر به اینپوت اشاره کرده باشیم طبیعتا با value میخواهیم کار کنیم که اینجا هم سخت گیری میکند که من نمیدونم این نوع المان تو value میگیرد یا نه
+//برای حل این مشکل از 
+//as ...
+//استفاده میکنیم
+//وقتی از as استفاده کنیم دیگر نیازی به علامت تعجب نیست
+// let inputUser = document.getElementById('txt')!
+let inputUser = document.getElementById('txt');
+inputUser.value = "yesss...";
 export {};
-//protected
-//اگر ما در کلاسی مقدار private را داده باشیم این به این معنی است که فقط داخل همان کلاس قابل مقدار دهی هست  و اگر این کلاس را به کلاس دیگری ارث داده باشیمن این مقدار را فقط در همان کلاس اول داریم
-// برای حل ای مشکل از protected استفاده میکنیم
-// نکته دیگر اینکه اگر یک متد در کلاس اول وجود داشته باشد و محدد بیاییم عین همان متد را منظور اسم یکسان هست در کلاس دوم تعریف کنیم در اینجا اوررایت اتفاق خواهد افتاد.
-//getter & setter
-//getter: برای  زمان یهیت که میخواد یک متغیری را به ما پس بدهد
-//setter: برای زمانی هست که میخواد یک مقداری را دریافت کند
-//مثال get & set در فایل  practice01
-/************************************************************* */
-//توابع ایستا توابعی هست که بدون اینکه از روی ان نمونه ای بسازیم از ان استفاده میکنیم
-//بدون new زدن میتوانیم از آن استفاده کنیم
-//مثل تابع Math
-//برای ساخت static کافیست که قبل از متد این کلمه را قرار دهیم
-//static function & static properties
-//هم تابع را میتوانیم ایستا کنیم هم متغیر ها و پرراپرتی ها را
-//مثال در فایل practice01
-/***************************************** */
-//abstract
-//زمان یهست که یک متدی را در کلاس تعریف میکنیم که میخواهیم فرزندان و ان کلاس هایی که از آن ارثبری کرده اند از این متد استفاده کنند
-//اینحا از abstarct استفاده میکینم
-//نکنه اینکه متدی که قبل ان abtract نوشته میشود کلاس آن هم باید قبل آن abstract نوشته شود
-//تکته دیگر این که از ان کلاسی که abstract هست دیکر نمیشود new کرد
-//میتوان در کلاس اصلی متدی که قرار است abstract باشد  آن را به صورت void تعریف کرد
-//مثال در فایل practice01
-/***************************** */
 //# sourceMappingURL=typeScript.js.map
